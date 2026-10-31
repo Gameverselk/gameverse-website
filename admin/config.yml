@@ -1,0 +1,25 @@
+backend:
+  name: github
+  repo: Gameverselk/gameverse-website
+  branch: main
+
+media_folder: "images"
+public_folder: "/images"
+
+publish_mode: simple
+
+collections:
+  - name: "posts"
+    label: "Game Articles"
+    folder: "content/posts"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Category", name: "category", widget: "select", options: ["Mobile Games", "PC Games", "PlayStation", "Gaming News"] }
+      - { label: "Cover Image", name: "thumbnail", widget: "image", required: false }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Article", name: "body", widget: "markdown" }
