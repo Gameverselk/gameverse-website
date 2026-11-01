@@ -184,12 +184,19 @@ async function renderImportedPosts() {
  container.innerHTML='';
  importedData.articles.forEach(article => {
    const card=document.createElement('article'); card.className='post'; card.dataset.category=article.category;
+   const card=document.createElement('article'); card.className='post'; card.dataset.category=article.category;
    const art=document.createElement('div'); art.className='post-art '+({Mobile:'art-mobile',PC:'art-pc',PlayStation:'art-console',News:'art-guide',Guides:'art-guide'}[article.category]||'art-guide')+(article.image?' has-image':'');
    if(article.image) { const im=document.createElement('img'); im.className='post-cover'; im.src=article.image; im.alt=article.title; im.loading='lazy'; im.onerror=()=>{im.remove();art.classList.remove('has-image');}; art.appendChild(im); }
-   if (!article.image) {
-  const icon=document.createElement('span');
-  icon.textContent=article.icon;
-  art.appendChild(icon);
+   const icon=document.createElement('span'); icon.textContent=article.icon; art.appendChild(icon);
+   const body=document.createElement('div'); body.className='post-body';
+   const tag=document.createElement('div'); tag.className='tag'; tag.textContent=article.category==='News'?'GAMING NEWS':article.category==='PlayStation'?'PLAYSTATION':article.category==='PC'?'PC GAMES':article.category==='Mobile'?'MOBILE GAMES':'GAME GUIDES';
+   const h=document.createElement('h3'); h.textContent=article.title;
+   const p=document.createElement('p'); p.textContent=article.summary;
+   const foot=document.createElement('div'); foot.className='post-foot';
+   const label=document.createElement('span'); label.textContent=article.category+' · From Blogger backup';
+   const a=document.createElement('a'); a.className='read'; a.href='#'+article.key; a.textContent='Read full article →'; a.addEventListener('click',ev=>{ev.preventDefault();showPage(article.key);});
+   foot.append(label,a); body.append(tag,h,p,foot); card.append(art,body); container.appendChild(card);
+ });
 }
    
    const body=document.createElement('div'); body.className='post-body';
