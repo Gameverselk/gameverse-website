@@ -1,3 +1,3 @@
 [build]
-  command = "node build-posts.js"
+  command = "npm run build"
   publish = "."
