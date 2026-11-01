@@ -179,7 +179,7 @@ importedData.pages.forEach(page => { pageData[page.key] = `<div class="imported-
 pageData['about'] = pageData['about'] || `<h1>About Game Verse</h1><p>Game Verse shares gaming information, guides, recommendations and news for players.</p>`;
 pageData['privacy'] = pageData['privacy'] || `<h1>Privacy Policy</h1><p>Privacy information is being prepared.</p>`;
 pageData['contact'] = pageData['contact'] || `<h1>Contact Us</h1><p>Contact details are being prepared.</p>`;
-function renderImportedPosts() {
+async function renderImportedPosts() {
  const container=document.getElementById('posts');
  container.innerHTML='';
  importedData.articles.forEach(article => {
@@ -197,6 +197,45 @@ function renderImportedPosts() {
    foot.append(label,a); body.append(tag,h,p,foot); card.append(art,body); container.appendChild(card);
  });
  const noResults=document.createElement('div'); noResults.className='no-results'; noResults.id='noResults'; noResults.textContent='No matching articles found. Try another search or category.'; container.appendChild(noResults);
+  try {
+  const response = await fetch('./posts.json');
+
+  if (response.ok) {
+    const cmsPosts = await response.json();
+
+    cmsPosts.forEach(post => {
+      const card = document.createElement('article');
+      card.className = 'post';
+      card.dataset.category = post.category.replace(' Games', '');
+
+      const art = document.createElement('div');
+      art.className = 'post-art art-mobile';
+
+      const icon = document.createElement('span');
+      icon.textContent = '🎮';
+      art.appendChild(icon);
+
+      const body = document.createElement('div');
+      body.className = 'post-body';
+
+      const tag = document.createElement('div');
+      tag.className = 'tag';
+      tag.textContent = post.category;
+
+      const title = document.createElement('h3');
+      title.textContent = post.title;
+
+      const description = document.createElement('p');
+      description.textContent = post.description;
+
+      body.append(tag, title, description);
+      card.append(art, body);
+      container.appendChild(card);
+    });
+  }
+} catch (error) {
+  console.log('CMS posts loading:', error);
+  }
 }
 
 function showPage(key){
