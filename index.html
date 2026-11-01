@@ -212,36 +212,6 @@ let currentFilter='All';
 function applyFilters(){const q=document.getElementById('searchInput').value.toLowerCase().trim();let shown=0;document.querySelectorAll('.post').forEach(card=>{const matchCategory=currentFilter==='All'||card.dataset.category===currentFilter;const matchText=card.innerText.toLowerCase().includes(q);card.style.display=matchCategory&&matchText?'':'none';if(matchCategory&&matchText)shown++;});document.getElementById('noResults').style.display=shown?'none':'block';}
 document.querySelectorAll('.filter').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));btn.classList.add('active');currentFilter=btn.dataset.filter;applyFilters();}));
 document.getElementById('searchInput').addEventListener('input',applyFilters);
-</script>
-  <script>
-async function renderImportedPosts() {
-  const container = document.getElementById('latest');
-  if (!container) return;
-
-  try {
-    const response = await fetch('/posts.json');
-    if (!response.ok) throw new Error('Posts not found');
-
-    const posts = await response.json();
-
-    posts.forEach(post => {
-      const card = document.createElement('article');
-      card.className = 'post';
-      card.dataset.category = post.category || 'All';
-
-      card.innerHTML = `
-        <img src="${post.thumbnail || ''}" alt="${post.title}">
-        <h3>${post.title}</h3>
-        <p>${post.description || ''}</p>
-      `;
-
-      container.appendChild(card);
-    });
-  } catch (error) {
-    console.log('Articles loading:', error);
-  }
-}
-    renderImportedPosts();
   </script>
 </body>
 </html>
