@@ -186,7 +186,12 @@ async function renderImportedPosts() {
    const card=document.createElement('article'); card.className='post'; card.dataset.category=article.category;
    const art=document.createElement('div'); art.className='post-art '+({Mobile:'art-mobile',PC:'art-pc',PlayStation:'art-console',News:'art-guide',Guides:'art-guide'}[article.category]||'art-guide')+(article.image?' has-image':'');
    if(article.image) { const im=document.createElement('img'); im.className='post-cover'; im.src=article.image; im.alt=article.title; im.loading='lazy'; im.onerror=()=>{im.remove();art.classList.remove('has-image');}; art.appendChild(im); }
-   const icon=document.createElement('span'); icon.textContent=article.icon; art.appendChild(icon);
+   if (!article.image) {
+  const icon=document.createElement('span');
+  icon.textContent=article.icon;
+  art.appendChild(icon);
+}
+   
    const body=document.createElement('div'); body.className='post-body';
    const tag=document.createElement('div'); tag.className='tag'; tag.textContent=article.category==='News'?'GAMING NEWS':article.category==='PlayStation'?'PLAYSTATION':article.category==='PC'?'PC GAMES':article.category==='Mobile'?'MOBILE GAMES':'GAME GUIDES';
    const h=document.createElement('h3'); h.textContent=article.title;
